@@ -14,26 +14,13 @@ class ItemsController < ApplicationController
       
       results.each do | result |
         # 扱い易いように Item としてインスタンスを作成する（保存はしない）
-        item = Item.new(read(result))
+        item = Item.find_or_initialize_by(read(result))
         @items << item
       end
     end
   end
   
   private
-  
-  def read(result)
-    code = result['itemCode']
-    name = result['itemName']
-    url = result['itemUrl']
-    image_url = result['mediumImageUrls'].first['imageUrl'].gsub('?_ex=128x128', '')
-    
-    return {
-      code: code,
-      name: name,
-      url: url,
-      image_url: image_url,
-    }
-  end
+
 end
 
